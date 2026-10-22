@@ -1,12 +1,45 @@
 {
-  "name": "xallindrome-widget-sdk",
-  "version": "1.0.0",
-  "private": true,
+  "name": "@xallindrome-labs/widget-sdk",
+  "version": "0.1.0",
+  "description": "Tiny browser SDK that loads externally hosted widget scripts and mounts them into a page. No dependencies.",
+  "keywords": ["widget", "embed", "loader", "script-loader", "iife", "browser"],
   "license": "MIT",
+  "author": "Andrew Wilson (https://xallindrome.co)",
+  "homepage": "https://github.com/xallindrome-labs/xallindrome-widgets/tree/main/apps/public-widget-platform#readme",
+  "bugs": "https://github.com/xallindrome-labs/xallindrome-widgets/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xallindrome-labs/xallindrome-widgets.git",
+    "directory": "apps/public-widget-platform"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "type": "module",
+  "main": "./dist/xallindrome-widgets-sdk.iife.js",
+  "module": "./dist/xallindrome-widgets-sdk.es.js",
+  "types": "./dist/types/index.d.ts",
+  "unpkg": "./dist/xallindrome-widgets-sdk.iife.js",
+  "jsdelivr": "./dist/xallindrome-widgets-sdk.iife.js",
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/xallindrome-widgets-sdk.es.js",
+      "default": "./dist/xallindrome-widgets-sdk.iife.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "sideEffects": true,
+  "files": [
+    "dist/xallindrome-widgets-sdk.iife.js",
+    "dist/xallindrome-widgets-sdk.es.js",
+    "dist/xallindrome-widgets-sdk.*.map",
+    "dist/types"
+  ],
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && tsc -p tsconfig.build.json",
+    "prepublishOnly": "npm run build",
     "release:prepare": "node scripts/prepare-release.mjs",
     "preview": "vite preview",
     "generate:index": "node scripts/generate-widgets-index.mjs",

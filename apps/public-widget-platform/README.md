@@ -1,4 +1,4 @@
-# Widget SDK
+# @xallindrome-labs/widget-sdk
 
 A tiny browser SDK that loads externally hosted, versioned widget scripts into a page:
 
@@ -7,14 +7,32 @@ A tiny browser SDK that loads externally hosted, versioned widget scripts into a
 
 Widget metadata (ids, global names, artifact names, hosted-embed query params) lives in `libs/public-widget-catalog/catalog.json`.
 
-## Build
+## Install
+
+```bash
+npm install @xallindrome-labs/widget-sdk
+```
+
+```js
+import { mount } from "@xallindrome-labs/widget-sdk";
+```
+
+Or load the browser build straight from a CDN:
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/@xallindrome-labs/widget-sdk/dist/xallindrome-widgets-sdk.iife.js"></script>
+```
+
+The SDK has no dependencies and is about 1 kB. It only loads and mounts scripts; the widgets themselves live in [xallindrome-widgets](https://github.com/xallindrome-labs/xallindrome-widgets) and you host their built files yourself.
+
+## Build (from the repository)
 
 From the repository root:
 
 ```bash
 npm install
-npm run build -w xallindrome-widget-sdk
-npm run release:prepare -w xallindrome-widget-sdk
+npm run build -w @xallindrome-labs/widget-sdk
+npm run release:prepare -w @xallindrome-labs/widget-sdk
 ```
 
 `release:prepare` copies SDK files into:
@@ -26,7 +44,7 @@ npm run release:prepare -w xallindrome-widget-sdk
 ## Generate widget index metadata
 
 ```bash
-npm run generate:index -w xallindrome-widget-sdk -- dist/widgets-index.json https://widgets.example.com
+npm run generate:index -w @xallindrome-labs/widget-sdk -- dist/widgets-index.json https://widgets.example.com
 ```
 
 This reads every widget entry in the catalog and writes a multi-widget `dist/widgets-index.json`. The last argument is the base URL where you host the built files.
@@ -52,3 +70,7 @@ The output of `release:prepare` is plain static files. Put them on any static ho
   });
 </script>
 ```
+
+---
+
+**Built by [Xallindrome](https://xallindrome.co)**: we build automation and AI workflows for small businesses. If you'd like something like this for your business, [book a diagnostic](https://xallindrome.co).
