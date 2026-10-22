@@ -1,0 +1,34 @@
+{
+  "name": "xallindrome-widgets",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Embeddable lead-gen and onboarding widgets (quiz, intake form, countdown) plus a tiny loader SDK.",
+  "license": "MIT",
+  "author": "Andrew Wilson (https://xallindrome.co)",
+  "homepage": "https://github.com/xallindrome-labs/xallindrome-widgets#readme",
+  "bugs": "https://github.com/xallindrome-labs/xallindrome-widgets/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xallindrome-labs/xallindrome-widgets.git"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "workspaces": [
+    "apps/*",
+    "libs/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "npm test --workspaces --if-present",
+    "verify": "npm run typecheck && npm test && npm run build",
+    "dev:quiz": "npm run dev -w delphi-quiz-widget",
+    "dev:intake": "npm run dev -w plato-intake-form",
+    "dev:countdown": "npm run dev -w kairos-onboarding-countdown"
+  },
+  "devDependencies": {
+    "typescript": "~5.9.3"
+  }
+}

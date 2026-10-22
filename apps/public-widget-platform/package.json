@@ -1,0 +1,19 @@
+{
+  "name": "xallindrome-widget-sdk",
+  "version": "1.0.0",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "release:prepare": "node scripts/prepare-release.mjs",
+    "preview": "vite preview",
+    "generate:index": "node scripts/generate-widgets-index.mjs",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.3",
+    "vite": "^7.3.1"
+  }
+}

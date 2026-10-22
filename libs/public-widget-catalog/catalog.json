@@ -1,0 +1,191 @@
+{
+  "version": 1,
+  "widgets": [
+    {
+      "id": "kairos-onboarding-countdown",
+      "projectName": "kairos-onboarding-countdown",
+      "appDir": "apps/kairos-onboarding-countdown",
+      "title": "Kairos Onboarding Countdown",
+      "description": "Onboarding-confirmation marquee with a live countdown to the booked onboarding call.",
+      "globalName": "KairosOnboardingCountdown",
+      "selectorId": "kairos-onboarding-countdown",
+      "autoMountAttribute": "data-kairos-onboarding-countdown",
+      "artifacts": {
+        "iifeSource": "kairos-onboarding-countdown.iife.js",
+        "esmSource": "kairos-onboarding-countdown.es.js",
+        "iifeTarget": "widget.iife.js",
+        "esmTarget": "widget.esm.js"
+      },
+      "hostedEmbed": {
+        "title": "Kairos Onboarding Countdown",
+        "wrapperMaxWidth": 1280,
+        "defaultProps": {
+          "appointmentType": "onboarding"
+        },
+        "queryParams": [
+          {
+            "queryParam": "targetDate",
+            "datasetKey": "targetDate"
+          },
+          {
+            "queryParam": "appointmentDate",
+            "datasetKey": "targetDate"
+          },
+          {
+            "queryParam": "targetLabel",
+            "datasetKey": "targetLabel"
+          },
+          {
+            "queryParam": "targetTime",
+            "datasetKey": "targetTime"
+          },
+          {
+            "queryParam": "refIndex",
+            "datasetKey": "refIndex"
+          },
+          {
+            "queryParam": "eyebrow",
+            "datasetKey": "eyebrow"
+          },
+          {
+            "queryParam": "topRight",
+            "datasetKey": "topRight"
+          },
+          {
+            "queryParam": "headlineLine1",
+            "datasetKey": "headlineLine1"
+          },
+          {
+            "queryParam": "headlineLine2",
+            "datasetKey": "headlineLine2"
+          },
+          {
+            "queryParam": "subtitle",
+            "datasetKey": "subtitle"
+          },
+          {
+            "queryParam": "timerLabel",
+            "datasetKey": "timerLabel"
+          },
+          {
+            "queryParam": "footerLeft",
+            "datasetKey": "footerLeft"
+          },
+          {
+            "queryParam": "footerRight",
+            "datasetKey": "footerRight"
+          },
+          {
+            "queryParam": "columns",
+            "datasetKey": "columns"
+          },
+          {
+            "queryParam": "apiBaseUrl",
+            "datasetKey": "apiBaseUrl"
+          },
+          {
+            "queryParam": "appointmentType",
+            "datasetKey": "appointmentType"
+          },
+          {
+            "queryParam": "type",
+            "datasetKey": "appointmentType"
+          },
+          {
+            "queryParam": "email",
+            "datasetKey": "email"
+          },
+          {
+            "queryParam": "storageKey",
+            "datasetKey": "storageKey"
+          }
+        ]
+      }
+    },
+    {
+      "id": "delphi-quiz",
+      "projectName": "delphi-quiz-widget",
+      "appDir": "apps/delphi-quiz-widget",
+      "title": "Delphi — Automation Leak Score Quiz",
+      "description": "Tap-only lead-gen quiz: a handful of taps, a Leak Score and archetype result, optional CRM contact sync and an inline calendar embed.",
+      "globalName": "DelphiQuizWidget",
+      "selectorId": "delphi-quiz-widget",
+      "autoMountAttribute": "data-delphi-quiz-widget",
+      "artifacts": {
+        "iifeSource": "delphi-quiz-widget.iife.js",
+        "esmSource": "delphi-quiz-widget.es.js",
+        "iifeTarget": "widget.iife.js",
+        "esmTarget": "widget.esm.js"
+      },
+      "hostedEmbed": {
+        "title": "Leak Score Quiz",
+        "wrapperMaxWidth": 640,
+        "queryParams": [
+          {
+            "queryParam": "apiBaseUrl",
+            "datasetKey": "apiBaseUrl"
+          },
+          {
+            "queryParam": "calendarEmbedUrl",
+            "datasetKey": "calendarEmbedUrl"
+          },
+          {
+            "queryParam": "bookingUrl",
+            "datasetKey": "bookingUrl"
+          },
+          {
+            "queryParam": "niche",
+            "datasetKey": "niche"
+          },
+          {
+            "queryParam": "source",
+            "datasetKey": "source"
+          }
+        ]
+      }
+    },
+    {
+      "id": "plato-intake-form",
+      "projectName": "plato-intake-form",
+      "appDir": "apps/plato-intake-form",
+      "title": "Plato Intake Form",
+      "description": "Embeddable long-form intake: save-as-you-go, two intake modes, 12 sections plus a review screen.",
+      "globalName": "PlatoIntakeForm",
+      "selectorId": "plato-intake-form",
+      "autoMountAttribute": "data-plato-intake-form",
+      "artifacts": {
+        "iifeSource": "plato-intake-form.iife.js",
+        "esmSource": "plato-intake-form.es.js",
+        "iifeTarget": "widget.iife.js",
+        "esmTarget": "widget.esm.js"
+      },
+      "hostedEmbed": {
+        "title": "Plato Intake Form",
+        "wrapperMaxWidth": 1440,
+        "layout": "fullscreen",
+        "queryParams": [
+          {
+            "queryParam": "storageKey",
+            "datasetKey": "storageKey"
+          },
+          {
+            "queryParam": "source",
+            "datasetKey": "source"
+          },
+          {
+            "queryParam": "apiBaseUrl",
+            "datasetKey": "apiBaseUrl"
+          },
+          {
+            "queryParam": "proceedUrl",
+            "datasetKey": "proceedUrl"
+          },
+          {
+            "queryParam": "turnstileSiteKey",
+            "datasetKey": "turnstileSiteKey"
+          }
+        ]
+      }
+    }
+  ]
+}

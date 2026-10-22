@@ -1,0 +1,283 @@
+/* =========================================================
+   Kairos Onboarding Countdown — embeddable widget styles
+   Scoped under .koc-root so embedding the widget in a host
+   page does not leak design tokens or class collisions.
+   ========================================================= */
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@300..700&display=swap");
+
+.koc-root {
+  /* ---------- DESIGN TOKENS (scoped) ---------- */
+  --ground-000: #0a0a0c;
+  --ground-050: #111114;
+  --ground-100: #18181c;
+  --ground-200: #1f1f24;
+  --ground-300: #2a2a31;
+  --ground-400: #3a3a44;
+  --ground-500: #5a5a66;
+
+  --signal-000: #f2efe8;
+  --signal-100: #e6e3dc;
+  --signal-200: #c9c6bf;
+  --signal-300: #9c9a93;
+  --signal-400: #6e6c66;
+
+  --volcanic-000: #e50914;
+  --volcanic-100: #ff2e3c;
+  --volcanic-200: #a6060f;
+  --volcanic-glow: rgba(229, 9, 20, 0.24);
+
+  --fg-1: var(--signal-000);
+  --fg-2: var(--signal-200);
+  --fg-3: var(--signal-300);
+  --fg-4: var(--signal-400);
+
+  --bg-1: var(--ground-000);
+  --bg-2: var(--ground-050);
+
+  --line-1: var(--ground-300);
+  --line-2: var(--ground-400);
+
+  --font-display: "Space Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Inter", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", "SF Mono", Menlo, monospace;
+
+  --ease-mechanical: cubic-bezier(0.2, 0, 0, 1);
+
+  --t-micro: 11px;
+  --track-tight: -0.02em;
+  --track-tightest: -0.04em;
+  --track-widest: 0.16em;
+
+  background: var(--bg-1);
+  color: var(--fg-1);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  width: 100%;
+  display: block;
+  border: 1px solid var(--line-1);
+  position: relative;
+  overflow: hidden;
+}
+
+.koc-root,
+.koc-root *,
+.koc-root *::before,
+.koc-root *::after {
+  box-sizing: border-box;
+}
+
+.koc-marquee {
+  padding: 0;
+  display: grid;
+  grid-template-rows: auto auto auto auto auto;
+}
+
+/* top bar */
+.koc-top {
+  padding: 18px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: var(--t-micro);
+  letter-spacing: var(--track-widest);
+  text-transform: uppercase;
+  color: var(--fg-3);
+  border-bottom: 1px solid var(--line-1);
+}
+.koc-top .koc-index .koc-n { color: var(--fg-1); }
+
+/* anchor headline */
+.koc-anchor {
+  padding: 32px 40px 28px;
+  position: relative;
+}
+.koc-anchor h2 {
+  font-family: var(--font-display);
+  font-size: clamp(72px, 9vw, 116px);
+  font-weight: 500;
+  letter-spacing: var(--track-tightest);
+  line-height: 0.88;
+  color: var(--fg-1);
+  margin: 0;
+}
+.koc-anchor h2 .koc-period { color: var(--volcanic-000); }
+.koc-anchor .koc-sub {
+  margin: 22px 0 0;
+  max-width: 38ch;
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--fg-3);
+}
+
+/* timer band */
+.koc-timer {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: 24px;
+  padding: 28px 40px 24px;
+  border-top: 1px solid var(--line-1);
+  border-bottom: 1px solid var(--line-1);
+}
+.koc-timer .koc-label {
+  font-family: var(--font-mono);
+  font-size: var(--t-micro);
+  letter-spacing: var(--track-widest);
+  text-transform: uppercase;
+  color: var(--fg-4);
+}
+.koc-timer .koc-clock {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 64px;
+  letter-spacing: var(--track-tightest);
+  line-height: 0.95;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+  color: var(--fg-1);
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-top: 8px;
+}
+.koc-timer .koc-clock .koc-sep {
+  color: var(--fg-4);
+  font-weight: 500;
+}
+.koc-timer .koc-clock .koc-secs { color: var(--volcanic-000); }
+.koc-timer .koc-clock .koc-units {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: var(--track-widest);
+  text-transform: uppercase;
+  color: var(--fg-4);
+  align-self: end;
+  margin-left: 12px;
+  padding-bottom: 12px;
+}
+.koc-timer .koc-target {
+  font-family: var(--font-mono);
+  font-size: var(--t-micro);
+  letter-spacing: var(--track-widest);
+  text-transform: uppercase;
+  color: var(--fg-4);
+  text-align: right;
+  line-height: 1.6;
+}
+.koc-timer .koc-target strong {
+  color: var(--fg-1);
+  font-weight: 500;
+}
+
+/* abstract pattern panel */
+.koc-pattern {
+  position: relative;
+  height: 96px;
+  overflow: hidden;
+  border-bottom: 1px solid var(--line-1);
+}
+.koc-pattern svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* lists grid */
+.koc-grid {
+  padding: 32px 40px 36px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+.koc-col h4 {
+  font-family: var(--font-mono);
+  font-size: var(--t-micro);
+  letter-spacing: var(--track-widest);
+  text-transform: uppercase;
+  color: var(--fg-3);
+  margin: 0 0 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--line-1);
+  display: flex;
+  justify-content: space-between;
+  font-weight: 500;
+}
+.koc-col h4 .koc-ord { color: var(--fg-4); }
+.koc-col ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.koc-col li {
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  gap: 10px;
+  align-items: start;
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--fg-2);
+}
+.koc-col li .koc-ix {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: var(--track-widest);
+  color: var(--fg-4);
+  padding-top: 4px;
+}
+.koc-col li.koc-done {
+  color: var(--fg-3);
+  text-decoration: line-through;
+  text-decoration-color: var(--ground-400);
+  text-decoration-thickness: 1px;
+}
+
+/* footer */
+.koc-foot {
+  padding: 14px 40px;
+  border-top: 1px solid var(--line-1);
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: var(--track-widest);
+  text-transform: uppercase;
+  color: var(--fg-4);
+}
+.koc-foot .koc-live::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background: var(--volcanic-000);
+  margin-right: 8px;
+  vertical-align: middle;
+  animation: koc-pulse 1.6s var(--ease-mechanical) infinite;
+}
+@keyframes koc-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+@media (max-width: 720px) {
+  .koc-top { padding: 14px 20px; flex-direction: column; align-items: flex-start; gap: 6px; }
+  .koc-anchor { padding: 24px 20px 20px; }
+  .koc-anchor h2 { font-size: clamp(56px, 13vw, 96px); }
+  .koc-timer { padding: 20px; grid-template-columns: 1fr; align-items: start; }
+  .koc-timer .koc-target { text-align: left; }
+  .koc-timer .koc-clock { font-size: 48px; flex-wrap: wrap; }
+  .koc-timer .koc-clock .koc-units { margin-left: 0; padding-bottom: 0; }
+  .koc-grid { padding: 24px 20px 28px; grid-template-columns: 1fr; gap: 24px; }
+  .koc-foot { padding: 12px 20px; flex-direction: column; gap: 4px; }
+}

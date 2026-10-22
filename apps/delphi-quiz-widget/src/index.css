@@ -1,0 +1,945 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap");
+
+.aqw-root {
+  /* Matches xallindrome.co: Space Grotesk for
+     display, Inter for body. display=swap so a slow font never blanks the quiz. */
+  --aqw-display: "Space Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --aqw-body: "Inter", "Helvetica Neue", Arial, sans-serif;
+  --aqw-bg: #0b0b0f;
+  --aqw-panel: #121218;
+  --aqw-panel-2: #17171f;
+  --aqw-border: rgba(217, 180, 124, 0.22);
+  --aqw-border-strong: rgba(217, 180, 124, 0.55);
+  --aqw-accent: #d9b47c;
+  --aqw-accent-soft: rgba(217, 180, 124, 0.12);
+  --aqw-text: #f4f0e8;
+  --aqw-muted: #9a948a;
+  --aqw-radius: 18px;
+  font-family: var(--aqw-body);
+  color: var(--aqw-text);
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+.aqw-root *,
+.aqw-root *::before,
+.aqw-root *::after {
+  box-sizing: inherit;
+}
+
+.aqw-card {
+  background: linear-gradient(165deg, var(--aqw-panel) 0%, var(--aqw-bg) 100%);
+  border: 1px solid var(--aqw-border);
+  border-radius: 24px;
+  padding: 28px 22px 26px;
+  /* Was 480px, which padded short screens (intro, interstitial) with ~200px of
+     dead space and left the CTA stranded mid-card. Now that the stage measures
+     each screen, this only needs to keep the shortest screen from collapsing. */
+  min-height: 340px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+.aqw-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 22px;
+  margin-bottom: 10px;
+}
+
+.aqw-back {
+  appearance: none;
+  background: none;
+  border: none;
+  color: var(--aqw-muted);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 550;
+  cursor: pointer;
+  padding: 2px 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.aqw-back:hover {
+  color: var(--aqw-text);
+}
+
+.aqw-step-count {
+  font-family: var(--aqw-body);
+  font-size: 11.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--aqw-muted);
+}
+
+/* Trust badges: each claim is traceable to the Moat & 3-Tier Offer doc. */
+.aqw-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin: 0 0 26px;
+}
+
+.aqw-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 11px;
+  border-radius: 999px;
+  border: 1px solid var(--aqw-border);
+  background: rgba(217, 180, 124, 0.06);
+  color: var(--aqw-text);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.aqw-badge svg {
+  width: 13px;
+  height: 13px;
+  color: var(--aqw-accent);
+  flex-shrink: 0;
+}
+
+/* Inline field errors sit under the input they belong to. */
+.aqw-input-err {
+  border-color: #e86a5b !important;
+}
+
+.aqw-field-msg {
+  display: block;
+  margin-top: 5px;
+  font-size: 12.5px;
+  font-weight: 550;
+  color: #e86a5b;
+}
+
+.aqw-progress {
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  margin-bottom: 22px;
+  overflow: hidden;
+}
+
+.aqw-progress-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #b98f4e, var(--aqw-accent));
+  transition: width 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.aqw-progress-fill::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    100deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.45) 50%,
+    transparent 80%
+  );
+  transform: translateX(-100%);
+  animation: aqw-shimmer 2.4s ease-in-out infinite;
+}
+
+@keyframes aqw-shimmer {
+  0%,
+  35% {
+    transform: translateX(-100%);
+  }
+  65%,
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.aqw-step-label {
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--aqw-muted);
+  margin-bottom: 10px;
+}
+
+.aqw-stage {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  /* Matches the screen-swap timing so the card resizes as the content arrives,
+     rather than snapping a frame ahead of it. */
+  transition: height 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.aqw-screen {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  animation: aqw-slide-in 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes aqw-slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---------- DIRECTIONAL SCREEN TRANSITIONS ----------
+   Forward moves the page leftward (content leaves left, next arrives from the
+   right); Back mirrors it. The exit holds for the first third so the tapped
+   card's checkmark registers before anything moves — the confirmation and the
+   transition read as one gesture instead of two. */
+
+.aqw-stage[data-dir="fwd"] .aqw-screen {
+  animation: aqw-enter-fwd 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.aqw-stage[data-dir="back"] .aqw-screen {
+  animation: aqw-enter-back 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.aqw-stage[data-exiting="1"] .aqw-screen {
+  animation: aqw-exit-fwd 0.24s cubic-bezier(0.4, 0, 0.9, 0.6) forwards;
+}
+
+.aqw-stage[data-exiting="1"][data-dir="back"] .aqw-screen {
+  animation: aqw-exit-back 0.24s cubic-bezier(0.4, 0, 0.9, 0.6) forwards;
+}
+
+@keyframes aqw-enter-fwd {
+  from {
+    opacity: 0;
+    transform: translate3d(26px, 6px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes aqw-enter-back {
+  from {
+    opacity: 0;
+    transform: translate3d(-26px, 6px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes aqw-exit-fwd {
+  0%,
+  34% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(-30px, 0, 0);
+  }
+}
+
+@keyframes aqw-exit-back {
+  0%,
+  34% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(30px, 0, 0);
+  }
+}
+
+/* Options cascade only on arrival — during an exit the whole screen moves as
+   one plane, so per-item stagger would fight the gesture. */
+.aqw-stage[data-exiting="1"] .aqw-option {
+  animation: none;
+}
+
+.aqw-title {
+  font-family: var(--aqw-display);
+  font-size: clamp(1.35rem, 4.5vw, 1.8rem);
+  line-height: 1.25;
+  font-weight: 700;
+  margin: 0 0 10px;
+}
+
+.aqw-subtitle {
+  color: var(--aqw-muted);
+  font-size: 15px;
+  line-height: 1.55;
+  margin: 0 0 34px;
+}
+
+.aqw-prompt {
+  font-family: var(--aqw-display);
+  font-size: clamp(1.15rem, 4vw, 1.45rem);
+  line-height: 1.35;
+  font-weight: 650;
+  margin: 0 0 20px;
+}
+
+.aqw-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.aqw-option {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  text-align: left;
+  background: var(--aqw-panel-2);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: var(--aqw-radius);
+  color: var(--aqw-text);
+  font-size: 15.5px;
+  font-weight: 550;
+  line-height: 1.35;
+  padding: 15px 16px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease, transform 0.12s ease;
+  -webkit-tap-highlight-color: transparent;
+  animation: aqw-cascade 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(var(--aqw-i, 0) * 70ms);
+}
+
+@keyframes aqw-cascade {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.aqw-option-check {
+  margin-left: auto;
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--aqw-accent);
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.aqw-option.aqw-selected .aqw-option-check {
+  display: flex;
+  animation: aqw-check-pop 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.aqw-option-check svg path {
+  stroke: #17120a;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+  stroke-dasharray: 14;
+  stroke-dashoffset: 14;
+  animation: aqw-check-draw 0.28s ease 0.08s forwards;
+}
+
+@keyframes aqw-check-pop {
+  0% {
+    transform: scale(0);
+  }
+  70% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes aqw-check-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.aqw-option:hover {
+  border-color: var(--aqw-border-strong);
+  background: var(--aqw-accent-soft);
+  transform: translateY(-2px);
+}
+
+.aqw-option:active {
+  transform: scale(0.985);
+}
+
+.aqw-option.aqw-selected {
+  border-color: var(--aqw-accent);
+  background: var(--aqw-accent-soft);
+  animation: aqw-pop 0.28s ease;
+}
+
+@keyframes aqw-pop {
+  0% {
+    transform: scale(1);
+  }
+  45% {
+    transform: scale(1.025);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Tinted tile + line icon. The tile is what reads as "designed"; it also gives
+   the selected state somewhere to land besides the border. */
+.aqw-option-ic {
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: rgba(217, 180, 124, 0.10);
+  color: var(--aqw-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.18s ease, color 0.18s ease, transform 0.18s ease;
+}
+
+.aqw-option-ic svg {
+  width: 21px;
+  height: 21px;
+}
+
+.aqw-option:hover .aqw-option-ic {
+  transform: translateY(-1px);
+}
+
+.aqw-option.aqw-selected .aqw-option-ic {
+  background: var(--aqw-accent);
+  color: #17120a;
+}
+
+.aqw-archetype-ic {
+  flex-shrink: 0;
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  background: rgba(217, 180, 124, 0.12);
+  color: var(--aqw-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.aqw-archetype-ic svg {
+  width: 24px;
+  height: 24px;
+}
+
+.aqw-cta {
+  font-family: var(--aqw-display);
+  appearance: none;
+  border: none;
+  border-radius: 999px;
+  background: linear-gradient(120deg, #c79c5c, var(--aqw-accent));
+  color: #17120a;
+  font-size: 16.5px;
+  font-weight: 700;
+  padding: 16px 28px;
+  cursor: pointer;
+  transition: transform 0.12s ease, filter 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.aqw-cta:hover {
+  filter: brightness(1.06);
+}
+
+.aqw-cta:active {
+  transform: scale(0.98);
+}
+
+.aqw-cta:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.aqw-cta-glow {
+  animation: aqw-glow 2.6s ease-in-out infinite;
+}
+
+@keyframes aqw-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(217, 180, 124, 0);
+  }
+  50% {
+    box-shadow: 0 0 26px 2px rgba(217, 180, 124, 0.35);
+  }
+}
+
+.aqw-drip {
+  color: var(--aqw-accent);
+  margin-bottom: 6px;
+  display: inline-block;
+  animation: aqw-bob 2.8s ease-in-out infinite;
+}
+
+.aqw-drip svg {
+  width: 30px;
+  height: 30px;
+}
+
+@keyframes aqw-bob {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-4deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(4deg);
+  }
+}
+
+.aqw-trust {
+  color: var(--aqw-muted);
+  font-size: 12.5px;
+  margin-top: 12px;
+  text-align: center;
+}
+
+.aqw-interstitial {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  gap: 18px;
+}
+
+.aqw-interstitial-emoji {
+  font-size: 44px;
+  animation: aqw-bob 2.8s ease-in-out infinite;
+}
+
+.aqw-interstitial-number {
+  font-family: var(--aqw-display);
+  font-size: 64px;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--aqw-accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.aqw-interstitial-copy {
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--aqw-text);
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.aqw-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.aqw-field label {
+  font-size: 13px;
+  color: var(--aqw-muted);
+  letter-spacing: 0.03em;
+}
+
+.aqw-field input {
+  background: var(--aqw-panel-2);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  color: var(--aqw-text);
+  font-size: 16px;
+  padding: 14px 16px;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.aqw-field input:focus {
+  border-color: var(--aqw-accent);
+}
+
+.aqw-error {
+  color: #e86a5b;
+  font-size: 13.5px;
+  margin: 4px 0 10px;
+}
+
+.aqw-analyzing {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  text-align: center;
+}
+
+/* Discrete steps that complete one by one read as real work happening, where a
+   generic spinner reads as a stall. Each line names something the scorer does. */
+.aqw-steps {
+  display: grid;
+  gap: 14px;
+  width: 100%;
+  max-width: 330px;
+  text-align: left;
+}
+
+.aqw-step {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14.5px;
+  font-weight: 550;
+  color: var(--aqw-muted);
+  opacity: 0.4;
+  transform: translateY(2px);
+  transition: opacity 0.35s ease, color 0.35s ease, transform 0.35s ease;
+}
+
+.aqw-step.is-active,
+.aqw-step.is-done {
+  opacity: 1;
+  color: var(--aqw-text);
+  transform: none;
+}
+
+.aqw-step-dot {
+  position: relative;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.14);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.aqw-step.is-active .aqw-step-dot {
+  border-color: rgba(217, 180, 124, 0.4);
+}
+
+.aqw-step.is-active .aqw-step-dot::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  border-top-color: var(--aqw-accent);
+  animation: aqw-spin 0.8s linear infinite;
+}
+
+.aqw-step.is-done .aqw-step-dot {
+  background: var(--aqw-accent);
+  border-color: var(--aqw-accent);
+}
+
+.aqw-step-dot svg {
+  width: 12px;
+  height: 12px;
+  color: #17120a;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.aqw-step.is-done .aqw-step-dot svg {
+  opacity: 1;
+}
+
+@keyframes aqw-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.aqw-tbar {
+  width: 100%;
+  max-width: 240px;
+  height: 5px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+  margin-top: 6px;
+}
+
+.aqw-tbar span {
+  display: block;
+  height: 100%;
+  width: 0;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #b98f4e, var(--aqw-accent));
+  animation: aqw-tfill 3.4s linear forwards;
+}
+
+@keyframes aqw-tfill {
+  to {
+    width: 100%;
+  }
+}
+
+.aqw-dots {
+  display: flex;
+  gap: 10px;
+}
+
+.aqw-dots span {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--aqw-accent);
+  animation: aqw-bounce 1.1s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+.aqw-dots span:nth-child(2) {
+  animation-delay: 0.15s;
+  opacity: 0.8;
+}
+
+.aqw-dots span:nth-child(3) {
+  animation-delay: 0.3s;
+  opacity: 0.6;
+}
+
+@keyframes aqw-bounce {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  35% {
+    transform: translateY(-16px) scale(1.08);
+  }
+  70% {
+    transform: translateY(0) scale(0.94);
+  }
+}
+
+.aqw-analyzing-line {
+  color: var(--aqw-muted);
+  font-size: 15px;
+  min-height: 22px;
+  animation: aqw-slide-in 0.4s ease;
+}
+
+.aqw-result-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 6px;
+  margin-bottom: 20px;
+}
+
+.aqw-ring-wrap {
+  position: relative;
+  width: 168px;
+  height: 168px;
+  margin: 4px auto 10px;
+}
+
+.aqw-ring-score {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+}
+
+.aqw-ring-number {
+  font-family: var(--aqw-display);
+  font-size: 44px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.aqw-ring-caption {
+  font-size: 11.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--aqw-muted);
+}
+
+.aqw-severity {
+  font-family: var(--aqw-display);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.aqw-archetype {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--aqw-accent-soft);
+  border: 1px solid var(--aqw-border);
+  border-radius: var(--aqw-radius);
+  padding: 16px;
+  margin-bottom: 14px;
+}
+
+.aqw-archetype-emoji {
+  font-size: 38px;
+}
+
+.aqw-archetype-title {
+  font-family: var(--aqw-display);
+  font-size: 17px;
+  font-weight: 750;
+  margin: 0 0 3px;
+}
+
+.aqw-archetype-tagline {
+  font-size: 13.5px;
+  color: var(--aqw-muted);
+  line-height: 1.45;
+  margin: 0;
+}
+
+.aqw-echo {
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: var(--aqw-radius);
+  padding: 14px 16px;
+  margin-bottom: 14px;
+}
+
+.aqw-echo-title {
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--aqw-muted);
+  margin: 0 0 8px;
+}
+
+.aqw-echo-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 14px;
+  padding: 5px 0;
+}
+
+.aqw-echo-item span:last-child {
+  color: var(--aqw-muted);
+  text-align: right;
+}
+
+.aqw-fix {
+  background: var(--aqw-panel-2);
+  border-left: 3px solid var(--aqw-accent);
+  border-radius: 10px;
+  padding: 14px 16px;
+  font-size: 14.5px;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.aqw-calendar-frame {
+  width: 100%;
+  min-height: 620px;
+  border: none;
+  border-radius: var(--aqw-radius);
+  background: #fff;
+}
+
+.aqw-footer {
+  color: var(--aqw-muted);
+  font-size: 11.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: center;
+  margin-top: 18px;
+}
+
+.aqw-severity {
+  animation: aqw-check-pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 1.1s both;
+}
+
+.aqw-reveal-1 {
+  animation: aqw-cascade 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.25s both;
+}
+
+.aqw-reveal-2 {
+  animation: aqw-cascade 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.45s both;
+}
+
+.aqw-reveal-3 {
+  animation: aqw-cascade 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.65s both;
+}
+
+.aqw-reveal-4 {
+  animation: aqw-cascade 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.85s both;
+}
+
+.aqw-confetti {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.aqw-confetti i {
+  position: absolute;
+  top: -12px;
+  left: calc(var(--aqw-x) * 1%);
+  width: 7px;
+  height: 11px;
+  border-radius: 2px;
+  background: var(--aqw-c);
+  opacity: 0;
+  animation: aqw-confetti-fall 1.9s ease-in calc(var(--aqw-d) * 1ms) 1 forwards;
+}
+
+@keyframes aqw-confetti-fall {
+  0% {
+    opacity: 1;
+    transform: translateY(0) rotate(0deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(560px) rotate(680deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aqw-root *,
+  .aqw-root *::before,
+  .aqw-root *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media (max-width: 420px) {
+  .aqw-card {
+    padding: 22px 16px 20px;
+  }
+}

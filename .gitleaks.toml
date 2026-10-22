@@ -1,0 +1,8 @@
+title = "xallindrome-widgets"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "plato_intake_v1 is a localStorage key name, not a credential"
+regexes = ['''plato_intake_v1''']
